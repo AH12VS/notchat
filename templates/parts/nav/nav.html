@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-body rounded">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home:home_page' %}">NotChat</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home:home_page' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'rooms:rooms_page' %}">Chat</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if request.user.is_authenticated %}
+              <li>
+                <a class="dropdown-item border-bottom" href="{% url 'users:account_page' %}">Account</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'signout:signout_page' %}">SignOut</a>
+              </li>
+            {% else %}
+              <li>
+                <a class="dropdown-item" href="{% url 'signin:signin_page' %}">SignIn</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'signup:signup_page' %}">SignUp</a>
+              </li>
+            {% endif %}
+
+            <li>
+              <a class="dropdown-item border-top" href="{% url 'about:about_page' %}">About</a>
+            </li>
+          </ul>
+        </li>
+        {% if request.user.is_authenticated %}
+          {% if request.user.username %}
+            <li class="nav-item">
+              <a href="{% url 'users:account_page' %}" class="nav-link">{{ request.user.username }}</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'users:account_page' %}" class="nav-link">{{ request.user }}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+        <li>
+          {% if request.user.img_prof %}
+            <img src="{{ request.user.img_prof.url }}" alt="user image profile alt" class="rounded border" style="width: 24px; height: 24px; vertical-align: -moz-middle-with-baseline;" />
+          {% endif %}
+        </li>
+      </ul>
+      <form class="d-flex" action="{% url 'search:search_page' %}" method="get">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" />
+        <button class="btn btn-primary purple-custom-btn" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
